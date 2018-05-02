@@ -1,0 +1,31 @@
+{
+  "name": "smart_recommender",
+  "version": "1.0.0",
+  "description": "The recommendation engine for discovering art at the Philadelphia Museum of Art",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bunsushi/smART_recommender.git"
+  },
+  "author": "Tegan Bunsu Ashby",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bunsushi/smART_recommender/issues"
+  },
+  "homepage": "https://github.com/bunsushi/smART_recommender#readme",
+  "dependencies": {
+    "async": "^2.6.0",
+    "body-parser": "^1.18.2",
+    "csv": "^3.0.2",
+    "express": "^4.16.3",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "raccoon": "^0.2.8",
+    "redis": "^2.8.0",
+    "sequelize": "^4.37.6",
+    "underscore": "^1.9.0"
+  }
+}
