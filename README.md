@@ -23,9 +23,17 @@ cd smART_recommender
 redis-server
 ```
 
-## Test the Recommender
+4. Return to the terminal window in the `smART_recommender` directory to start any of the below options:
 
-Return to the terminal window in the `smART_recommender` directory
+## Demo the Recommender
+
+``` bash
+node test.js
+```
+
+## Evaluate the Recommender
+
+(In Development)
 
 ``` bash
 node engine.js
@@ -33,8 +41,10 @@ node engine.js
 
 ## Browser-based Recommender
 
+(In Development)
+
 ``` bash
 node server.js
 ```
 
-Your local server should now be running. http://localhost:8080/
+Your local server should now be running on PORT 8080. Check it out at http://localhost:8080/

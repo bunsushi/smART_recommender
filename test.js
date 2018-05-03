@@ -19,12 +19,12 @@ raccoon.liked('Darren', 'Sunflowers').then(() => {
     raccoon.allLikedFor('Darren').then((results) => {
         // returns an array of all the items that user has liked.
         console.log('Darren, you liked: ', results);
+    }).then(() => {
+        raccoon.liked('Victor', 'Sunflowers').then(() => {
+            return recommendFor('Victor', 10).then((results) => {
+                // Recommends The Virgin Mary, Mona Lisa, and The Gross Clinic for Victor
+                console.log('Victor, we think you`ll also like: ', results);
+            });
+        });
     });
 });
-
-raccoon.liked('Victor', 'Sunflowers').then(() => {
-    return recommendFor('Victor', 10).then((results) => {
-        // Recommends The Virgin Mary, Mona Lisa, and The Gross Clinic for Victor
-        console.log('Victor, we think you`ll also like: ', results);
-    })
-})
