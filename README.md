@@ -28,7 +28,7 @@ redis-server
 Return to the terminal window in the `smART_recommender` directory
 
 ``` bash
-node test.js
+node engine.js
 ```
 
 ## Browser-based Recommender
