@@ -16,8 +16,8 @@ const file = path.join(__dirname, '/data/hackathonseed-export.json');
 const visitorData = jsonfile.readFileSync(file);
 const userIds = Array.from(Array(NUM_USERS_TO_TEST).keys()).map((x) => { return x + 1; });
 
-var baseData = []; // Holds array of arrays for training
-var testData = []; // Holds array of arrays for testing
+const baseData = []; // Holds array of arrays for training
+const testData = []; // Holds array of arrays for testing
 
 const parseData = function () {
     var dataArray = []; // Holds array of objects
@@ -26,32 +26,24 @@ const parseData = function () {
         dataArray.push(visitorData.Dataset[data]); // Pushes each JSON object into dataArray
     }
 
-    // for (var i = 0; i < dataArray.length; i++) {
-    //     var visitorRating = []; // Holds each rating of an object by a visitor in an array
-    //     visitorRating.push(dataArray[i].user, dataArray[i].objectID, dataArray[i].rating);
-    //     baseData.push(visitorRating);
-    // }
-
     for (var i = 0; i < 5822; i++) {
         var visitorRating = []; // Holds each rating of an object by a visitor in an array
-        visitorRating.push(dataArray[i].user, dataArray[i].objectID, dataArray[i].rating);
+        visitorRating.push(dataArray[i].user.toString(), dataArray[i].objectID.toString(), dataArray[i].rating.toString());
         baseData.push(visitorRating);
     }
 
-    for (var i = 6000; i < dataArray.length; i++) {
+    for (var i = 5822; i < dataArray.length; i++) {
         var visitorRating = []; // Holds each rating of an object by a visitor in an array
-        visitorRating.push(dataArray[i].user, dataArray[i].objectID, dataArray[i].rating);
+        visitorRating.push(dataArray[i].user.toString(), dataArray[i].objectID.toString(), dataArray[i].rating.toString());
         testData.push(visitorRating);
     }
 }
 
 parseData();
 
-// console.log(baseData);
-// console.log(testData);
-
 const createRating = function (line) {
     const [user, object, rating] = line;
+    console.log(line);
     const ratingFunc = rating === 1 ? raccoon.liked : raccoon.disliked;
     return ratingFunc(user, object, { updateRecs: false });
 };
@@ -64,6 +56,7 @@ const updateRec = function (userId) {
 
 const predictCompare = function (line) {
     const [user, object, rating] = line;
+    console.log(line);
     return raccoon.predictFor(user, object).then((prediction) => {
         return [user, Number(rating), prediction];
     });
@@ -72,19 +65,17 @@ const predictCompare = function (line) {
 start = now()
 client.flushdbAsync().then(() => {
     const ratingActions = baseData.map(createRating);
-
     const ratingResults = Promise.all(ratingActions);
     console.log('--- finished inputing ratings ---');
     return ratingResults;
 }).then((data) => {
     const updateActions = userIds.map(updateRec);
-
     const recResults = Promise.all(updateActions);
     console.log('--- finished updating similarities ---');
     return recResults;
 }).then((recResults) => {
     const predictActions = testData.map(predictCompare);
-
+    console.log(predictActions);
     const predictResults = Promise.all(predictActions);
     console.log('--- finished making predictions ---');
     return predictResults;
@@ -115,10 +106,7 @@ client.flushdbAsync().then(() => {
 
         if (prediction === 0) {
             unratedCount += 1;
-        } else if (prediction > EQUILIBRIUM && rating > 3) {
-            correctCount += 1;
-            ratedCount += 1;
-        } else if (prediction < EQUILIBRIUM && rating <= 3) {
+        } else if (prediction < EQUILIBRIUM && rating) {
             correctCount += 1;
             ratedCount += 1;
         } else {
