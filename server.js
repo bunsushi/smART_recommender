@@ -11,9 +11,12 @@ app.use(bodyParser.json());
 app.use(express.static('public'))
 
 app.get("/", function(req, res) {
-    console.log("I'm connected");
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+app.get("/menu", function(req,res) {
+    res.sendFile(path.join(__dirname, 'public', 'menu.html'));
+})
 
 app.listen(PORT, function() {
     console.log("Listening on PORT: " + PORT);
